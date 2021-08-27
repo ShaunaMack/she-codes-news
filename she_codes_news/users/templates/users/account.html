@@ -5,5 +5,6 @@
         <h2>My Account</h2>
         <p>Username: {{ user.username }}</p>
         <p>Email: {{ user.email }}</p>
+        <a class="story-links" style="text-decoration:underline" href={% url 'news:stories' %}>View my stories</a>
     {% endif%}
 {% endblock %}

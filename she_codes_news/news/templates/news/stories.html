@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{% static 'news/styles.css' %}">
+{% endblock %}
+
+{% block content %}
+
+
+    <div id="all-stories">
+        {% for story in all_stories %}
+        {% include "./storyCard.html" with story=story %}
+            {% comment %} <p>{{ story.title }}</p> {% endcomment %}
+        {% endfor %}
+    </div>
+    
+{% endblock %}

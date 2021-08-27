@@ -55,3 +55,16 @@ class StoryDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         obj = self.get_object()
         return obj.author == self.request.user
+
+class StoryListView(generic.ListView, LoginRequiredMixin, UserPassesTestMixin,):
+    model = NewsStory
+    template_name = 'news/stories.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['all_stories'] = NewsStory.objects.all().filter(author=self.request.user).order_by("-pub_date")
+        return context
+
+    def test_func(self):
+        obj = self.get_object()
+        return obj.author == self.request.user
