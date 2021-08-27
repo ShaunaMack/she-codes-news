@@ -18,5 +18,11 @@
         {% endif %}
         {{ story.content|linebreaks }}
     </div>
+    {% if user == story.author %}
+        <div >
+            <a class="story-links" href="{% url 'news:editStory' story.id %}">Edit</a>
+            <a class="story-links" href="{% url 'news:deleteStory' story.id %}">Delete</a>    
+        </div>
+    {% endif %}
 </div>
 {% endblock %}

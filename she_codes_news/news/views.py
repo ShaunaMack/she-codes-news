@@ -1,4 +1,6 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views import generic
+from django.views.generic.edit import UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import NewsStory
 from .forms import StoryForm
@@ -34,3 +36,22 @@ class AddStoryView(generic.CreateView):
         #set author to user logged in
         form.instance.author = self.request.user
         return super().form_valid(form)
+
+class StoryUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = NewsStory
+    fields = ['title', 'pub_date', 'content', 'image_url']
+    template_name = 'news/editStory.html'
+    success_url = reverse_lazy('news:index')
+
+    def test_func(self):
+        obj = self.get_object()
+        return obj.author == self.request.user
+
+class StoryDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = NewsStory
+    template_name = 'news/deleteStory.html'
+    success_url = reverse_lazy('news:index')
+
+    def test_func(self):
+        obj = self.get_object()
+        return obj.author == self.request.user
